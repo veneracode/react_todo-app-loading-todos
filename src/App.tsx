@@ -1,11 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/control-has-associated-label */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserWarning } from './UserWarning';
 import { USER_ID } from './api/todos';
-import { useState } from 'react';
 import { Todo } from './types/Todo';
-import { useEffect } from 'react';
 import { getTodos } from './api/todos';
 import { Header } from './components/header/Header';
 import { TodoList } from './components/TodoList/TodoList';
@@ -19,21 +15,34 @@ export const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Приховуємо помилку через 3 секунди після того, як вона зʼявилася
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 3000);
 
+      // При розмонтуванні або якщо error зміниться раніше, очищаємо таймер
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+    // Якщо error === null, цей effect нічого не робить
+  }, [error]);
 
   useEffect(() => {
     setIsLoading(true);
 
     getTodos()
       .then(setTodos)
-      .catch(eror => {
-        setError('error, sorry');
-        throw eror;
+      .catch(() => {
+        setError('Unable to load todos');
+        // Не кидаємо throw, тестуємо приховування
       })
       .finally(() => setIsLoading(false));
   }, []);
 
-    if (!USER_ID) {
+  if (!USER_ID) {
     return <UserWarning />;
   }
 
@@ -69,7 +78,6 @@ export const App: React.FC = () => {
           className="delete"
           onClick={() => setError(null)}
         />
-        {/* show only one message at a time */}
         {error}
       </div>
     </div>
