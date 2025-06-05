@@ -15,19 +15,17 @@ export const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Приховуємо помилку через 3 секунди після того, як вона зʼявилася
   useEffect(() => {
     if (error) {
       const timer = setTimeout(() => {
         setError(null);
       }, 3000);
 
-      // При розмонтуванні або якщо error зміниться раніше, очищаємо таймер
+
       return () => {
         clearTimeout(timer);
       };
     }
-    // Якщо error === null, цей effect нічого не робить
   }, [error]);
 
   useEffect(() => {
@@ -37,7 +35,6 @@ export const App: React.FC = () => {
       .then(setTodos)
       .catch(() => {
         setError('Unable to load todos');
-        // Не кидаємо throw, тестуємо приховування
       })
       .finally(() => setIsLoading(false));
   }, []);
