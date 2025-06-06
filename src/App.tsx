@@ -21,7 +21,6 @@ export const App: React.FC = () => {
         setError(null);
       }, 3000);
 
-
       return () => {
         clearTimeout(timer);
       };

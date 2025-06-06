@@ -1,5 +1,6 @@
 import React from 'react';
 import { Todo } from '../../types/Todo';
+import classNames from 'classnames';
 
 type Props = {
   visibleGoods: Todo;
@@ -7,7 +8,7 @@ type Props = {
 
 export const TodoItem: React.FC<Props> = ({ visibleGoods }) => {
   return (
-    <div data-cy="Todo" className="todo" key={visibleGoods.id}>
+    <div data-cy="Todo" className={classNames('todo', { completed: visibleGoods.completed })}  key={visibleGoods.id}>
       <label className="todo__status-label" htmlFor={`todo-${visibleGoods.id}`}>
         {' '}
         <input
@@ -27,7 +28,7 @@ export const TodoItem: React.FC<Props> = ({ visibleGoods }) => {
       </button>
 
       {/* 'is-active' class puts this modal on top of the todo */}
-      <div data-cy="TodoLoader" className="modal overlay is-active">
+      <div data-cy="TodoLoader" className="modal overlay">
         <div className="modal-background has-background-white-ter" />
         <div className="loader" />
       </div>
