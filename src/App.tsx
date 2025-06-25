@@ -7,7 +7,11 @@ import { Header } from './components/header/Header';
 import { TodoList } from './components/TodoList/TodoList';
 import { Footer } from './components/footer/Footer';
 
-type SortType = 'all' | 'completed' | 'active';
+export enum SortType {
+  ALL = 'all',
+  COMPLETED = 'completed',
+  ACTIVE = 'active',
+}
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -44,11 +48,11 @@ export const App: React.FC = () => {
 
   let visibleGoods = [...todos];
 
-  if (filter === 'completed') {
+  if (filter === SortType.COMPLETED) {
     visibleGoods = visibleGoods.filter(good => good.completed);
   }
 
-  if (filter === 'active') {
+  if (filter === SortType.ACTIVE) {
     visibleGoods = visibleGoods.filter(good => !good.completed);
   }
 

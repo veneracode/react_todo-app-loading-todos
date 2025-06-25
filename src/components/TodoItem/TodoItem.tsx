@@ -3,24 +3,28 @@ import { Todo } from '../../types/Todo';
 import classNames from 'classnames';
 
 type Props = {
-  visibleGoods: Todo;
+  todo: Todo;
 };
 
-export const TodoItem: React.FC<Props> = ({ visibleGoods }) => {
+export const TodoItem: React.FC<Props> = ({ todo }) => {
   return (
-    <div data-cy="Todo" className={classNames('todo', { completed: visibleGoods.completed })}  key={visibleGoods.id}>
-      <label className="todo__status-label" htmlFor={`todo-${visibleGoods.id}`}>
+    <div
+      data-cy="Todo"
+      className={classNames('todo', { completed: todo.completed })}
+      key={todo.id}
+    >
+      <label className="todo__status-label" htmlFor={`todo-${todo.id}`}>
         {' '}
         <input
           data-cy="TodoStatus"
           type="checkbox"
           className="todo__status"
-          checked={visibleGoods.completed}
+          checked={todo.completed}
         />
       </label>
 
       <span data-cy="TodoTitle" className="todo__title">
-        {visibleGoods.title}
+        {todo.title}
       </span>
 
       <button type="button" className="todo__remove" data-cy="TodoDelete">
